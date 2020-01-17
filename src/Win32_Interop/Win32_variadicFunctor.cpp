@@ -27,6 +27,7 @@
 #include <windows.h>
 #include <stdexcept>
 #include <map>
+#include <system_error>
 using namespace std;
 
 DLLMap& DLLMap::getInstance() {
@@ -41,7 +42,7 @@ LPVOID DLLMap::getProcAddress(string dll, string functionName)
 	if (find(dll) == end()) {
 		HMODULE mod = LoadLibraryA(dll.c_str());
 		if (mod == NULL) {
-			throw system_error(GetLastError(), system_category(), "LoadLibrary failed");
+			throw std::system_error(GetLastError(), std::system_category(), "LoadLibrary failed");
 		}
 		(*this)[dll] = mod;
 	}
@@ -49,7 +50,7 @@ LPVOID DLLMap::getProcAddress(string dll, string functionName)
 	HMODULE mod = (*this)[dll];
 	LPVOID fp = GetProcAddress(mod, functionName.c_str());
 	if (fp == nullptr) {
-		throw system_error(GetLastError(), system_category(), "LoadLibrary failed");
+		throw std::system_error(GetLastError(), std::system_category(), "LoadLibrary failed");
 	}
 
 	return fp;
