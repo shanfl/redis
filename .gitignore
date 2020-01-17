@@ -47,4 +47,5 @@ msvs/jemalloc
 msvs/BuildRelease
 msvs/Documentation
 tests/tmp/
+.vs/
 
